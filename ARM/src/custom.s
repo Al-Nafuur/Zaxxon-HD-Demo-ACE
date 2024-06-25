@@ -9,7 +9,7 @@ Based on code by Chris Walton
 /* Put code in boot section */
 .section  .boot,"ax",%progbits
 
-/* Entry Point (0xC00) */
+/* Entry Point (0x20000C00) */
 .global  Custom
 .func    Custom
 Custom:
@@ -17,7 +17,7 @@ Custom:
   bx r0
 
 .thumb
-  ldr r0,=0x40000024
+  ldr r0,=0x20010024
   ldr r2,[r0]
   cmp r2,#0
   bmi skipcopy

@@ -1,4 +1,3 @@
-
 ###############################################################################
 # ARM code makefile
 #
@@ -7,7 +6,9 @@
 ###############################################################################
 
 # Tool names
-TOOLCHAIN = ../../../ARM/bin/arm-elf
+# TOOLCHAIN = ../../../ARM/bin/arm-elf
+TOOLCHAIN=arm-none-eabi
+
 CC        = $(TOOLCHAIN)-gcc
 AS        = $(TOOLCHAIN)-as
 LD        = $(TOOLCHAIN)-ld
@@ -16,8 +17,11 @@ SIZE      = $(TOOLCHAIN)-size
 MKDIR     = mkdir
 
 # Compiler flags
-OPTIMIZATION = -Os
-CFLAGS = -mcpu=arm7tdmi -march=armv4t -mthumb # -mthumb-interwork
+# OPTIMIZATION = -Os
+OPTIMIZATION = -Oz 
+CFLAGS = -march=armv6-m -mthumb
+
+#CFLAGS = -mcpu=arm7tdmi -march=armv4t -mthumb # -mthumb-interwork
 CFLAGS += -Wall -ffunction-sections -save-temps -g -Wa,-a,-ad,-alhms=$(<:%.c=%.lst) # -mlong-calls -save-temps
 CFLAGS += $(OPTIMIZATION)
 

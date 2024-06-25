@@ -137,9 +137,9 @@ typedef int32_t  s32;
 // RAM/ROM layout ----------------------------------------------------
 //
 
-#define QUEUE_ADDR     0x40000C00 // RAM 4K
-#define FLASHDATA_ADDR 0x00000C00 // ROM 24K
-#define DDROM_ADDR     0x00006C00 // ROM copy of Display Data contents
+#define QUEUE_ADDR     0x20010C00 // RAM 4K
+#define FLASHDATA_ADDR 0x20000C00 // ROM 24K
+#define DDROM_ADDR     0x20006C00 // ROM copy of Display Data contents
 
 u8*  const queue     = (u8*)QUEUE_ADDR;
 u8*  const flashdata = (u8*)FLASHDATA_ADDR;
@@ -151,7 +151,7 @@ int* const queue_int = (int*)QUEUE_ADDR;
 // ARM registers -----------------------------------------------------
 //
 
-#define MAMCR (*(u8*)0xE01FC000)
+//#define MAMCR (*(u8*)0xE01FC000)
 
 //
 // 6507 register copies ----------------------------------------------
@@ -387,7 +387,7 @@ const u8* const zaxxonGfx = ZaxxonGfx;
 //      Subroutines
 // -------------------------------------------------------------------
 
-inline void CycleRGB()
+static inline void CycleRGB()
 {
   // rotate color index
   var->rgbCtr = (var->rgbCtr + 1) % 3;
@@ -395,7 +395,7 @@ inline void CycleRGB()
 
 // -------------------------------------------------------------------
 
-inline void Scrolling()
+static inline void Scrolling()
 {
   if (var->scrollEnable)
     {
@@ -415,7 +415,7 @@ inline void Scrolling()
 
 // -------------------------------------------------------------------
 
-inline void ClearBuffers()
+static inline void ClearBuffers()
 {
   int i;
 
@@ -486,7 +486,7 @@ inline void ClearBuffers()
 
 // -------------------------------------------------------------------
 
-inline void DrawGauge()
+static inline void DrawGauge()
 {
   int i;
 
@@ -532,7 +532,7 @@ inline void DrawGauge()
 
 // -------------------------------------------------------------------
 
-inline void DrawBackground(unsigned start, unsigned end)
+static inline void DrawBackground(unsigned start, unsigned end)
 {
   int xs, xt, ys, yt;
 
@@ -593,7 +593,7 @@ inline void DrawBackground(unsigned start, unsigned end)
 
 // -------------------------------------------------------------------
 
-inline void DrawScore()
+static inline void DrawScore()
 {
   int i;
 
@@ -665,7 +665,7 @@ inline void DrawScore()
 
 // -------------------------------------------------------------------
 
-inline void DrawLaser()
+static inline void DrawLaser()
 {
   int l, i;
 
@@ -717,7 +717,7 @@ inline void DrawLaser()
 
 // -------------------------------------------------------------------
 
-inline void DrawShip()
+static inline void DrawShip()
 {
   int i;
 
@@ -787,7 +787,7 @@ inline void DrawShip()
 
 // -------------------------------------------------------------------
 
-inline void Input()
+static inline void Input()
 {
   int i;
 
@@ -908,7 +908,7 @@ inline void Input()
 
 // -------------------------------------------------------------------
 
-inline void Audio()
+static inline void Audio()
 {
   // ship engine
   AUDV0 = 4;
@@ -934,7 +934,7 @@ inline void Audio()
 //      Init
 // -------------------------------------------------------------------
 
-inline void Init()
+static inline void Init()
 {
   var->rgbCtr       =   0;
   var->frameCtr     =   0;
@@ -964,7 +964,7 @@ int main()
 {
   // There's a bug in the ARM chip that causes it to crash based on how code is aligned in memory.
   // Partially disabling MAM (cache) stops the crash from occuring.
-  MAMCR = 1;
+  //MAMCR = 1;
 
   switch (ARM_FUNCTION)
     {
@@ -1008,7 +1008,7 @@ int main()
     }
 
   // Turn MAM back on as the DPC+ driver doesn't trigger the bug and it needs the extra performance.
-  MAMCR = 2;
+  //MAMCR = 2;
 
   return 0;
 }

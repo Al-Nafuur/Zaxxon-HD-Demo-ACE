@@ -4,16 +4,16 @@ OUTPUT_ARCH(arm)
 /* Entry Point  */
 ENTRY(Custom)
 
-/* LPC2103 memory areas  */
+/* STM32 memory areas  */
 MEMORY 
 {
-  boot (RX)       : ORIGIN = 0xc00    ,     LENGTH = 128   /* C-runtime booter */
-  C_code (RX)     : ORIGIN = 0xc80    ,    LENGTH = 21k   /* space for C code */
-  ram             : ORIGIN = 0x40001e00, LENGTH = 512    /* free RAM (less stack space) */
+  boot (RX)       : ORIGIN = 0x20000c00    ,     LENGTH = 128   /* C-runtime booter */
+  C_code (RX)     : ORIGIN = 0x20000c80    ,    LENGTH = 21k   /* space for C code */
+  ram             : ORIGIN = 0x20011c00, LENGTH = 512    /* free RAM (less stack space) */
 }
 
 /* Global symbol _stack_end */
-_stack_end = 0x40001FDC;
+_stack_end = 0x20011FDC;
 
 /* Output sections  */
 SECTIONS
